@@ -1,0 +1,5 @@
+/home/jakeknott/Desktop/School Notes/TestingCS422/Projects/HW1/HW1/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/home/jakeknott/Desktop/School Notes/TestingCS422/Projects/HW1/HW1/bin/Debug/HW1.dll.mdb
+/home/jakeknott/Desktop/School Notes/TestingCS422/Projects/HW1/HW1/bin/Debug/HW1.dll
+/home/jakeknott/Desktop/School Notes/TestingCS422/Projects/HW1/HW1/obj/Debug/HW1.dll
+/home/jakeknott/Desktop/School Notes/TestingCS422/Projects/HW1/HW1/obj/Debug/HW1.dll.mdb
