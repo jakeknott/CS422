@@ -1,8 +1,8 @@
 ﻿<Properties StartupItem="HW2/HW2.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="HW2/MyClass.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="HW2/PCQueue.cs">
     <Files>
-      <File FileName="HW2/MyClass.cs" Line="1" Column="1" />
+      <File FileName="HW2/PCQueue.cs" Line="41" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
