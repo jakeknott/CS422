@@ -1,0 +1,7 @@
+/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW3/Tests/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW3/Tests/bin/Debug/nunit.framework.dll
+/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW3/Tests/bin/Debug/HW3.dll
+/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW3/Tests/bin/Debug/Tests.dll.mdb
+/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW3/Tests/bin/Debug/Tests.dll
+/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW3/Tests/obj/Debug/Tests.dll
+/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW3/Tests/obj/Debug/Tests.dll.mdb
