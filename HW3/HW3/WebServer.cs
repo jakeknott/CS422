@@ -9,10 +9,9 @@ namespace CS422
 	public class WebServer
 	{
 		private static string _uri;
-
-		public WebServer ()
-		{
-		}
+		private static byte[] buf = new byte[2048];
+		private static int index; 
+		private static int bytesInBuf;
 
 		/// <summary>
 		/// Start the specified port using the responseTemplate to write to it.
@@ -21,6 +20,8 @@ namespace CS422
 		/// <param name="responseTemplate">Response template.</param>
 		public static bool Start (int port, string responseTemplate)
 		{
+			index = 0;
+			bytesInBuf = 0;
 			TcpListener listener = new TcpListener(IPAddress.Any, port);
 			listener.Start();
 			TcpClient client = listener.AcceptTcpClient();
@@ -91,11 +92,24 @@ namespace CS422
 
 		private static bool IsValidHTTPVersion(Stream stream)
 		{
-			byte[] buf = new byte[1];
-			int bytesRead = stream.Read (buf, 0, 1);
+			//byte[] buf = new byte[1];
+			//int bytesRead = stream.Read (buf, 0, 1);
+
+			// Read if nessessary
+			if (index >= bytesInBuf)
+			{
+				// read into our buff, save 'actual' size
+				bytesInBuf = stream.Read (buf, 0, buf.Length);
+
+				// Reset index to 0
+				index = 0;
+			}
+
 
 			// Read the first byte. 
-			string firstChar = ASCIIEncoding.ASCII.GetString (buf);
+			// Don't increment index because we want to re read this char later
+			byte[] charBuf = new byte[]{ buf [index] };
+			string firstChar = ASCIIEncoding.ASCII.GetString (charBuf);
 
 			// If the first character is a space, then we have an invalid request line, 
 			// since we have read the space at the end of the uri already.
@@ -110,10 +124,21 @@ namespace CS422
 
 			// While we are still have stuff to read and we have not already 
 			// found our expected string.
-			while (bytesRead != 0)
+			while (true)
 			{
+				// Read if nessessary
+				if (index >= bytesInBuf)
+				{
+					// read into our buff, save 'actual' size
+					bytesInBuf = stream.Read (buf, 0, buf.Length);
+
+					// Reset index to 0
+					index = 0;
+				}
+
 				// Add character to the string read so far. 
-				readSoFar += ASCIIEncoding.ASCII.GetString (buf);
+				charBuf = new byte[]{ buf [index++] };
+				readSoFar += ASCIIEncoding.ASCII.GetString (charBuf);
 
 				// If our read so far is NOT at the begining of our expected 
 				// Return false.
@@ -129,26 +154,29 @@ namespace CS422
 					// We have read our expted string, set is valid to true and break.
 					return true;
 				}
-
-				// read the next byte. 
-				bytesRead = stream.Read (buf, 0, 1);
 			}
-
-			// if we have are here then we have recived a read of 0 bytes but have not read our expected string.
-			return false;
 		}
 
 		private static bool IsValidURI(Stream stream)
 		{
-			byte[] buf = new byte[1];
-			stream.Read (buf, 0, 1);
+			//byte[] buf = new byte[1];
+
+			if (index >= bytesInBuf)
+			{
+				// read into our buff, save 'actual' size
+				bytesInBuf = stream.Read (buf, 0, buf.Length);
+
+				// Reset index to 0
+				index = 0;
+			}
 
 			// Get the first byte. 
-			string read = ASCIIEncoding.ASCII.GetString (buf);
+			byte[] charBuf = new byte[]{ buf [index++] };
+			string read = ASCIIEncoding.ASCII.GetString (charBuf);
 			string requestedURI = read;
 
 			// If we get a space, then that means there are two spaces, one in the method and one here,
-			// return false. -+
+			// return false.
 			if (read.Equals (" "))
 			{
 				// We do not want a space at the beginging of the uri
@@ -159,8 +187,17 @@ namespace CS422
 				// Otherwise, we will read untill we get a space.
 				while (!read.Equals (" "))
 				{
-					stream.Read (buf, 0, 1);
-					read = ASCIIEncoding.ASCII.GetString (buf);
+					if (index >= bytesInBuf)
+					{
+						// read into our buff, save 'actual' size
+						bytesInBuf = stream.Read (buf, 0, buf.Length);
+
+						// Reset index to 0
+						index = 0;
+					}
+
+					charBuf = new byte[]{ buf [index++] };
+					read = ASCIIEncoding.ASCII.GetString (charBuf);
 
 					if (read.Equals ("\r"))
 					{
@@ -183,18 +220,25 @@ namespace CS422
 		{
 			string expectedStart = "GET ";
 			string readSoFar = string.Empty;
-			byte[] buf = new byte[1];
-			int bytesRead = 0;
 
-			// Read the first byte. 
-			bytesRead = stream.Read (buf, 0, 1);
+			// Read the set of the request.
+			bytesInBuf = stream.Read (buf, 0, buf.Length);
+			index = 0;
 
 			// While we are still have stuff to read and we have not already 
 			// found our expected string.
-			while (bytesRead != 0)
+			while (true)
 			{
+				// read the next byte. 
+				if (index >= bytesInBuf)
+				{
+					bytesInBuf = stream.Read (buf, 0, buf.Length);
+					index = 0;
+				}
+
 				// Add character to the string read so far. 
-				readSoFar += ASCIIEncoding.ASCII.GetString (buf);
+				byte[] charBuf = new byte[]{ buf [index++] };
+				readSoFar +=  ASCIIEncoding.ASCII.GetString (charBuf);
 
 				// If our read so far is NOT at the begining of our expected 
 				// Return false.
@@ -210,13 +254,7 @@ namespace CS422
 					// We have read "GET "
 					return true;
 				}
-
-				// read the next byte. 
-				bytesRead = stream.Read (buf, 0, 1);
 			}
-
-			// If we are here, then we have not found our expected string and we cannot read anymore.
-			return false;
 		}
 
 		/// <summary>
@@ -226,12 +264,18 @@ namespace CS422
 		/// <param name="headerLine">Header line.</param>
 		public static bool IsValidHeader (Stream stream)
 		{
-			byte[] buf = new byte[1];
+			//byte[] buf = new byte[1];
 			string readChar = string.Empty;
 	
+			// read the next byte. 
+			if (index >= bytesInBuf)
+			{
+				bytesInBuf = stream.Read (buf, 0, buf.Length);
+				index = 0;
+			}
 
-			stream.Read (buf, 0, 1);
-			readChar = ASCIIEncoding.ASCII.GetString (buf);
+			byte[] charBuf = new byte[] { buf [index++] };
+			readChar = ASCIIEncoding.ASCII.GetString (charBuf);
 
 			// must start with a letter
 			if (readChar[0] < 'A' || readChar[0] > 'z')
@@ -248,33 +292,71 @@ namespace CS422
 					return false;
 				}
 
+				// read if needed
+				if (index >= bytesInBuf)
+				{
+					bytesInBuf = stream.Read (buf, 0, buf.Length);
+					index = 0;
+				}
+
 				// otherwise read another character
-				stream.Read (buf, 0, 1);
-				readChar = ASCIIEncoding.ASCII.GetString (buf);
+				charBuf = new byte[] { buf [index++] };
+				readChar = ASCIIEncoding.ASCII.GetString (charBuf);
 			}
 
 
 			// Read all the feild vaule pairs in until we get a \r\n twice
  			while (true)
 			{
-				stream.Read (buf, 0, 1);
-				readChar = ASCIIEncoding.ASCII.GetString (buf);
+				// read if needed
+				if (index >= bytesInBuf)
+				{
+					bytesInBuf = stream.Read (buf, 0, buf.Length);
+					index = 0;
+				}
+
+				// otherwise read another character
+				charBuf = new byte[] { buf [index++] };
+				readChar = ASCIIEncoding.ASCII.GetString (charBuf);
 
 				if (readChar.Equals ("\r"))
 				{
-					stream.Read (buf, 0, 1);
-					readChar = ASCIIEncoding.ASCII.GetString (buf);
+					// read if needed
+					if (index >= bytesInBuf)
+					{
+						bytesInBuf = stream.Read (buf, 0, buf.Length);
+						index = 0;
+					}
+
+					// otherwise read another character
+					charBuf = new byte[] { buf [index++] };
+					readChar = ASCIIEncoding.ASCII.GetString (charBuf);
 
 					if (readChar.Equals ("\n"))
 					{
-						// we have one new line, we need two to exit. 
-						stream.Read (buf, 0, 1);
-						readChar = ASCIIEncoding.ASCII.GetString (buf);
+						// read if needed
+						if (index >= bytesInBuf)
+						{
+							bytesInBuf = stream.Read (buf, 0, buf.Length);
+							index = 0;
+						}
+
+						// otherwise read another character
+						charBuf = new byte[] { buf [index++] };
+						readChar = ASCIIEncoding.ASCII.GetString (charBuf);
 
 						if (readChar.Equals ("\r"))
 						{
-							stream.Read (buf, 0, 1);
-							readChar = ASCIIEncoding.ASCII.GetString (buf);
+							// read if needed
+							if (index >= bytesInBuf)
+							{
+								bytesInBuf = stream.Read (buf, 0, buf.Length);
+								index = 0;
+							}
+
+							// otherwise read another character
+							charBuf = new byte[] { buf [index++] };
+							readChar = ASCIIEncoding.ASCII.GetString (charBuf);
 
 							if (readChar.Equals ("\n"))
 							{

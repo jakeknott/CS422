@@ -16,6 +16,7 @@ namespace CS422
 			//byte[] byteArray = Encoding.ASCII.GetBytes(contents);
 			MemoryStream stream = new MemoryStream(byteArray);
 
+			WebServer.Reset ();
 			Assert.IsTrue (WebServer.IsValidRequestLine (stream));
 
 			requestLine = "AET FDFDadf HTTP/1.1\r\n";
@@ -23,6 +24,7 @@ namespace CS422
 			//byte[] byteArray = Encoding.ASCII.GetBytes(contents);
 			stream = new MemoryStream(byteArray);
 
+			WebServer.Reset ();
 			Assert.IsFalse (WebServer.IsValidRequestLine (stream));
 
 			requestLine = "GET FDFDadf HTTP/2\r\n";
@@ -30,12 +32,15 @@ namespace CS422
 			//byte[] byteArray = Encoding.ASCII.GetBytes(contents);
 			stream = new MemoryStream(byteArray);
 
+			WebServer.Reset ();
+
 			Assert.IsFalse (WebServer.IsValidRequestLine (stream));
 
 			requestLine = "GET FDFDadfHTTP/2\r\n";
 			byteArray = Encoding.UTF8.GetBytes(requestLine);
 			//byte[] byteArray = Encoding.ASCII.GetBytes(contents);
 			stream = new MemoryStream(byteArray);
+			WebServer.Reset ();
 
 			Assert.IsFalse (WebServer.IsValidRequestLine (stream));
 
@@ -44,6 +49,7 @@ namespace CS422
 			byteArray = Encoding.UTF8.GetBytes(requestLine);
 			//byte[] byteArray = Encoding.ASCII.GetBytes(contents);
 			stream = new MemoryStream(byteArray);
+			WebServer.Reset ();
 
 			Assert.IsFalse (WebServer.IsValidRequestLine (stream));
 
@@ -51,6 +57,7 @@ namespace CS422
 			byteArray = Encoding.UTF8.GetBytes(requestLine);
 			//byte[] byteArray = Encoding.ASCII.GetBytes(contents);
 			stream = new MemoryStream(byteArray);
+			WebServer.Reset ();
 
 			Assert.IsFalse (WebServer.IsValidRequestLine (stream));
 
@@ -58,6 +65,7 @@ namespace CS422
 			byteArray = Encoding.UTF8.GetBytes(requestLine);
 			//byte[] byteArray = Encoding.ASCII.GetBytes(contents);
 			stream = new MemoryStream(byteArray);
+			WebServer.Reset ();
 
 			Assert.IsFalse (WebServer.IsValidRequestLine (stream));
 
@@ -65,6 +73,7 @@ namespace CS422
 			byteArray = Encoding.UTF8.GetBytes(requestLine);
 			//byte[] byteArray = Encoding.ASCII.GetBytes(contents);
 			stream = new MemoryStream(byteArray);
+			WebServer.Reset ();
 
 			Assert.IsFalse (WebServer.IsValidRequestLine (stream));
 
@@ -72,6 +81,7 @@ namespace CS422
 			byteArray = Encoding.UTF8.GetBytes(requestLine);
 			//byte[] byteArray = Encoding.ASCII.GetBytes(contents);
 			stream = new MemoryStream(byteArray);
+			WebServer.Reset ();
 
 			Assert.IsFalse (WebServer.IsValidRequestLine (stream));
 		}
@@ -83,6 +93,7 @@ namespace CS422
 			byte[] byteArray = Encoding.UTF8.GetBytes(requestLine);
 			//byte[] byteArray = Encoding.ASCII.GetBytes(contents);
 			MemoryStream stream = new MemoryStream(byteArray);
+			WebServer.Reset ();
 
 			Assert.IsTrue (WebServer.IsValidHeader (stream));
 
@@ -91,6 +102,7 @@ namespace CS422
 			byteArray = Encoding.UTF8.GetBytes(requestLine);
 			//byte[] byteArray = Encoding.ASCII.GetBytes(contents);
 			stream = new MemoryStream(byteArray);
+			WebServer.Reset ();
 
 			Assert.IsFalse (WebServer.IsValidHeader (stream));
 
@@ -98,6 +110,7 @@ namespace CS422
 			byteArray = Encoding.UTF8.GetBytes(requestLine);
 			//byte[] byteArray = Encoding.ASCII.GetBytes(contents);
 			stream = new MemoryStream(byteArray);
+			WebServer.Reset ();
 
 			Assert.IsFalse (WebServer.IsValidHeader (stream));
 
@@ -105,6 +118,7 @@ namespace CS422
 			byteArray = Encoding.UTF8.GetBytes(requestLine);
 			//byte[] byteArray = Encoding.ASCII.GetBytes(contents);
 			stream = new MemoryStream(byteArray);
+			WebServer.Reset ();
 
 			Assert.IsFalse (WebServer.IsValidHeader (stream));
 
@@ -112,6 +126,7 @@ namespace CS422
 			byteArray = Encoding.UTF8.GetBytes(requestLine);
 			//byte[] byteArray = Encoding.ASCII.GetBytes(contents);
 			stream = new MemoryStream(byteArray);
+			WebServer.Reset ();
 
 			Assert.IsFalse (WebServer.IsValidHeader (stream));
 
@@ -119,6 +134,7 @@ namespace CS422
 			byteArray = Encoding.UTF8.GetBytes(requestLine);
 			//byte[] byteArray = Encoding.ASCII.GetBytes(contents);
 			stream = new MemoryStream(byteArray);
+			WebServer.Reset ();
 
 			Assert.IsFalse (WebServer.IsValidHeader (stream));
 		}
@@ -130,6 +146,7 @@ namespace CS422
 			byte[] byteArray = Encoding.UTF8.GetBytes(requestLine);
 			//byte[] byteArray = Encoding.ASCII.GetBytes(contents);
 			MemoryStream stream = new MemoryStream(byteArray);
+			WebServer.Reset ();
 
 			Assert.IsTrue (WebServer.IsVaid(stream));
 
@@ -137,6 +154,7 @@ namespace CS422
 			byteArray = Encoding.UTF8.GetBytes(requestLine);
 			//byte[] byteArray = Encoding.ASCII.GetBytes(contents);
 			stream = new MemoryStream(byteArray);
+			WebServer.Reset ();
 
 			Assert.IsFalse (WebServer.IsVaid(stream));
 
@@ -144,6 +162,7 @@ namespace CS422
 			byteArray = Encoding.UTF8.GetBytes(requestLine);
 			//byte[] byteArray = Encoding.ASCII.GetBytes(contents);
 			stream = new MemoryStream(byteArray);
+			WebServer.Reset ();
 
 			Assert.IsFalse (WebServer.IsVaid(stream));
 		}
