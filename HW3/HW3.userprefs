@@ -1,19 +1,17 @@
 ﻿<Properties StartupItem="HW3/HW3.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="HW3/NUnitTestClass.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="HW3/WebServer.cs">
     <Files>
-      <File FileName="HW3/WebServer.cs" Line="56" Column="9" />
-      <File FileName="HW3/NUnitTestClass.cs" Line="136" Column="52" />
+      <File FileName="HW3/WebServer.cs" Line="11" Column="30" />
+      <File FileName="HW3/NUnitTestClass.cs" Line="169" Column="3" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.NUnit.TestPad">
         <State name="__root__">
-          <Node name="HW3" expanded="True">
+          <Node name="HW3" expanded="True" selected="True">
             <Node name="HW3" expanded="True">
               <Node name="CS422" expanded="True">
-                <Node name="NUnitTestClass" expanded="True">
-                  <Node name="TestHTTPHeaders" selected="True" />
-                </Node>
+                <Node name="NUnitTestClass" expanded="True" />
               </Node>
             </Node>
           </Node>
@@ -23,7 +21,8 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW3/HW3/NUnitTestClass.cs" line="155" column="1" />
+      <Breakpoint file="/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW3/HW3/NUnitTestClass.cs" line="174" column="1" />
+      <Breakpoint file="/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW3/HW3/NUnitTestClass.cs" line="20" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

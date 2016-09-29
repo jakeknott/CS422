@@ -1,0 +1,17 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HW5", "HW5\HW5.csproj", "{3886DEC3-C4E5-4A8C-8B04-514A92E3B650}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3886DEC3-C4E5-4A8C-8B04-514A92E3B650}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3886DEC3-C4E5-4A8C-8B04-514A92E3B650}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3886DEC3-C4E5-4A8C-8B04-514A92E3B650}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3886DEC3-C4E5-4A8C-8B04-514A92E3B650}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
