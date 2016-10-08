@@ -1,112 +1,67 @@
 ﻿using System;
-using System.Net;
-using System.Net.Sockets;
 using System.IO;
-using System.Text;
 using System.Collections.Generic;
+using System.Text;
 
 namespace CS422
 {
-	public class WebServer : IThreadPool
+	public class ValidateRequest
 	{
-		private static string _uri;
-		private static byte[] buf = new byte[2048];
-		private static string _method;
-		private static string _httpVersion;
-		private static int index; 
-		private static int bytesInBuf;
-		private static ThreadPool pool;
-		private  TcpClient _client; 
-		private Dictionary<string, string> services; 
+		private byte[] buf = new byte[2048];
+		private int index; 
+		private int bytesInBuf;
+		private string _uri;
+		private string _method;
+		private string _httpVersion;
+		private Dictionary<string, string> _headers;
 
-		public WebServer(TcpClient client)
-		{
-			_client = client;
+		public Dictionary<string, string> Headers {
+			get {return _headers;}
 		}
 
-		/// <summary>
-		/// Start the specified port using the responseTemplate to write to it.
-		/// </summary>
-		/// <param name="port">Port.</param>
-		/// <param name="responseTemplate">Response template.</param>
-		public static void Start (int port, ushort numThreads)
+		public int Index {
+			get {return index;}
+		}
+
+		public int BytesInBuf {
+			get {return bytesInBuf;}
+		}
+
+		public string URI {
+			get {return _uri;}
+		}
+
+		public string Method {
+			get {return _method;}
+		}
+
+		public string HttpVersion {
+			get {return _httpVersion;}
+		}
+
+		public byte[] Buf {
+			get {return buf;}
+		}
+
+		public ValidateRequest ()
 		{
 			index = 0;
 			bytesInBuf = 0;
 
-			pool = new ThreadPool (numThreads);
-
-
-			System.Threading.Thread listenThread = new System.Threading.Thread (Listen);
-			listenThread.Start (port);
+			index = 0; 
+			bytesInBuf = 0;
+			_uri = string.Empty;
+			_method = string.Empty;
+			_httpVersion = string.Empty;
+			_headers = new Dictionary<string, string>{};
 		}
 
-		private static void Listen(object obj)
-		{
-			int port = (int)obj;
-			
-			TcpClient client;
-			TcpListener listener = new TcpListener(IPAddress.Any, port);
-			listener.Start();
-
-
-			while(true)
-			{
-				// accept a client and start a thread with it. 
-				client = listener.AcceptTcpClient();
-				pool.Add (client);
-			}
-		}
-
-		internal void AddService(WebService service)
-		{
-			
-		}
-
-		public void ThreadWork()
-		{
-			WebRequest request = BuildRequest (_client);
-			if (request == null)
-			{
-				_client.GetStream ().Dispose ();
-				_client.Close ();
-			}
-			else
-			{
-				// we have a valid http request
-
-			}
-		}
-
-		private WebRequest BuildRequest(TcpClient client)
-		{
-			NetworkStream stream = client.GetStream();
-
-			if (IsVaid(stream))
-			{
-				Stream memoryStream = new MemoryStream (buf, index, bytesInBuf - index);
-
-				// since the network stream cannot seek, we can just give it the stream and all reads will start from where we left off. 
-				ConcatStream catStream = new ConcatStream (memoryStream, stream);
-				return new WebRequest (stream, catStream, _httpVersion, _uri, _method);
-				
-				//isValidHTTP = true;
-				//string formatedString = string.Format (responseTemplate, "11398813", DateTime.Now, _uri);
-				//stream.Write (Encoding.ASCII.GetBytes (formatedString), 0, formatedString.Length);
-			}
-
-
-			//listener.Stop ();
-
-			return null;
-		}
-			
 		/// <summary>
 		/// Determines if the HTTP in the readbuff is valid.
 		/// </summary>
 		/// <returns><c>true</c> if is vaid HTTP the specified readBuff; otherwise, <c>false</c>.</returns>
 		/// <param name="readBuff">Read buff.</param>
-		public static bool IsVaid(Stream stream)
+		public bool IsVaid(Stream stream)
 		{
 			// If we cannot read, then we return false. 
 			if (!stream.CanRead)
@@ -121,7 +76,7 @@ namespace CS422
 					return true;
 				}
 			}
-						
+
 			return false;
 		}
 
@@ -130,7 +85,7 @@ namespace CS422
 		/// </summary>
 		/// <returns><c>true</c> if is valid request line the specified requestLine; otherwise, <c>false</c>.</returns>
 		/// <param name="requestLine">Request line.</param>
-		public static bool IsValidRequestLine(Stream stream)
+		public bool IsValidRequestLine(Stream stream)
 		{
 			if (IsValidMethod (stream)
 				&& IsValidURI (stream)
@@ -142,7 +97,7 @@ namespace CS422
 			return false;
 		}
 
-		private static bool IsValidHTTPVersion(Stream stream)
+		private bool IsValidHTTPVersion(Stream stream)
 		{
 			//byte[] buf = new byte[1];
 			//int bytesRead = stream.Read (buf, 0, 1);
@@ -210,7 +165,8 @@ namespace CS422
 			}
 		}
 
-		private static bool IsValidURI(Stream stream)
+
+		private bool IsValidURI(Stream stream)
 		{
 			//byte[] buf = new byte[1];
 
@@ -268,8 +224,8 @@ namespace CS422
 			_uri = requestedURI;
 			return true;
 		}
-	
-		private static bool IsValidMethod(Stream stream)
+
+		private bool IsValidMethod(Stream stream)
 		{
 			string expectedStart = "GET ";
 			string readSoFar = string.Empty;
@@ -316,11 +272,13 @@ namespace CS422
 		/// </summary>
 		/// <returns><c>true</c> if is valid header the specified headerLine; otherwise, <c>false</c>.</returns>
 		/// <param name="headerLine">Header line.</param>
-		public static bool IsValidHeader (Stream stream)
+		public bool IsValidHeader (Stream stream)
 		{
 			//byte[] buf = new byte[1];
 			string readChar = string.Empty;
-	
+			string currentKey = string.Empty;
+			string currentValue = string.Empty;
+
 			// read the next byte. 
 			if (index >= bytesInBuf)
 			{
@@ -336,10 +294,12 @@ namespace CS422
 			{
 				return false;
 			}
-
+				
 			// Read the first field name
 			while(!readChar.Equals (":"))
 			{
+				currentKey += readChar;
+
 				// We should not have spaces or tabs in our field name.
 				if (readChar.Equals (" ") || readChar.Equals ("\t"))
 				{
@@ -357,10 +317,11 @@ namespace CS422
 				charBuf = new byte[] { buf [index++] };
 				readChar = ASCIIEncoding.ASCII.GetString (charBuf);
 			}
-
+			// currentKey is the first key now (not including the ":")
+			bool hasKey = true;
 
 			// Read all the feild vaule pairs in until we get a \r\n twice
- 			while (true)
+			while (true)
 			{
 				// read if needed
 				if (index >= bytesInBuf)
@@ -417,8 +378,59 @@ namespace CS422
 								return true;
 							}
 						}
+						else
+						{
+							// we have a single new line, not the end, just a header field
+							// Here we have our current key and current value = value + next key;
+							string[] temp = currentValue.Split (':');
+							currentValue = string.Empty;
+
+							int startIndex = 0;
+							//The header key
+							if (!hasKey)
+							{
+								// we already have the current Key
+								currentKey = temp [0];
+								startIndex = 1;
+							}
+
+							for (int i = startIndex; i < temp.Length; i++)
+							{
+								// Add back the ':' in the middle of the word
+								if (i != startIndex && i != temp.Length)
+									currentValue += ":";
+								currentValue += temp [i];
+							}
+
+							while(currentValue.StartsWith ("\t") && currentValue.StartsWith (" "))
+							{
+								// while there are still spaces at the front of the header
+								currentValue += currentValue.Substring (1);
+							}
+
+							while(currentValue.EndsWith ("\t") && currentValue.EndsWith (" "))
+							{
+								// while there are still spaces at the end of the header
+								currentValue += currentValue.Substring (0, currentValue.Length - 1);
+							}
+
+							_headers.Add (currentKey.ToLower (), currentValue);
+							currentValue = readChar;
+
+							hasKey = false;
+						}
 					}
 				}
+				else
+				{
+					// we have a normal char, not a newline or a ':'
+					// add it to our current key.
+					currentValue += readChar;
+				}
+
+				// Even if we read in one line, the readchar would be changed to the next one already, if not, 
+				//we have the same char from above. 
+
 			}
 		}
 	}

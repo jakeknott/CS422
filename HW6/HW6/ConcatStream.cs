@@ -97,19 +97,6 @@ namespace CS422
 				}
 				else
 				{
-					try
-					{
-						long l1 = s1.Length;
-						long l2 = s2.Length;
-
-						// If we are here then we can dynamically get the length
-						_length = l1 + l2;
-					}
-					catch
-					{
-						// If we could not get the lengths of each, we can only return the length that was given. 
-					}
-
 					return _length;
 				}
 			}
@@ -219,7 +206,7 @@ namespace CS422
 						s1.Write (buffer, offset, (int)spaceLeft);
 
 						// update the count we need to write.
-						int amountLeft = count - (int)spaceLeft;
+						count -= (int)spaceLeft;
 				
 						// Wrtite the rest to stream 2. 
 						// We should be at the begining of stream2, if we are not then we cannot write correctly.
@@ -229,7 +216,7 @@ namespace CS422
 							s2.Seek (0, SeekOrigin.Begin);
 						}
 
-						s2.Write (buffer, offset + (int)spaceLeft, amountLeft);
+						s2.Write (buffer, offset + (int)spaceLeft, count);
 					}
 				} 
 				else

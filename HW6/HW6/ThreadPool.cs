@@ -17,11 +17,16 @@ namespace CS422
 	{
 		private BlockingCollection<IThreadPool> coll;
 		private List<Thread> allThreads;
+		private static int activeThreads;
+
+		public int ActiveThreads {
+			get {return activeThreads;}
+		}
 
 		public ThreadPool ()
 		{}
 
-		public ThreadPool(ushort threadCount)
+		public ThreadPool(Int32 threadCount)
 		{
 			allThreads = new List<Thread>{ };
 
@@ -66,7 +71,9 @@ namespace CS422
 				else
 				{
 					//handle
+					activeThreads++;
 					task.ThreadWork ();
+					activeThreads--;
 				}
 			}
 		}

@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3886DEC3-C4E5-4A8C-8B04-514A92E3B650}</ProjectGuid>
+    <ProjectGuid>{077DD395-DB1E-4ACC-881D-F1E5B307E684}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>HW5</RootNamespace>
-    <AssemblyName>HW5</AssemblyName>
+    <RootNamespace>HW6</RootNamespace>
+    <AssemblyName>HW6</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -35,13 +35,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebServer.cs" />
+    <Compile Include="ThreadPool.cs" />
+    <Compile Include="WebRequest.cs" />
+    <Compile Include="WebService.cs" />
     <Compile Include="ConcatStream.cs" />
-    <Compile Include="NoSeekMemoryStream.cs" />
-    <Compile Include="NoSeekMemSteramTest.cs" />
-    <Compile Include="ConcatStreamTest.cs" />
+    <Compile Include="ValidateRequest.cs" />
+    <Compile Include="DemoService.cs" />
+    <Compile Include="TestingFiles.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Test\" />
-  </ItemGroup>
 </Project>
