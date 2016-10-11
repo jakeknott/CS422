@@ -1,0 +1,34 @@
+﻿<Properties StartupItem="HW7/HW7.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="HW7/TestingFiles.cs">
+    <Files>
+      <File FileName="HW7/WebRequest.cs" Line="1" Column="1" />
+      <File FileName="HW7/WebServer.cs" Line="107" Column="22" />
+      <File FileName="HW7/ValidateRequest.cs" Line="112" Column="1" />
+      <File FileName="HW7/TestingFiles.cs" Line="45" Column="30" />
+      <File FileName="HW7/ThreadPool.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="MonoDevelop.NUnit.TestPad">
+        <State name="__root__">
+          <Node name="HW7" expanded="True">
+            <Node name="HW7" expanded="True">
+              <Node name="CS422" expanded="True">
+                <Node name="TestingFiles" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW7/HW7/ValidateRequest.cs" line="288" column="1" />
+      <Breakpoint file="/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW7/HW7/ValidateRequest.cs" line="254" column="1" />
+      <Breakpoint file="/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW7/HW7/TestingFiles.cs" line="38" column="1" />
+      <Breakpoint file="/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW7/HW7/ValidateRequest.cs" line="568" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
