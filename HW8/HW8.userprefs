@@ -1,0 +1,28 @@
+﻿<Properties StartupItem="HW8/HW8.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="HW8/FileSystemDefs.cs">
+    <Files>
+      <File FileName="HW8/FileSystemDefs.cs" Line="16" Column="3" />
+      <File FileName="HW8/NUnitTests.cs" Line="22" Column="4" />
+    </Files>
+    <Pads>
+      <Pad Id="MonoDevelop.NUnit.TestPad">
+        <State name="__root__">
+          <Node name="HW8" expanded="True">
+            <Node name="HW8" expanded="True">
+              <Node name="CS422" expanded="True">
+                <Node name="NUnitTests" expanded="True">
+                  <Node name="STDSystemTest" selected="True" />
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
