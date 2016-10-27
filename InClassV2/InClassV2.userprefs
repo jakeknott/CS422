@@ -1,0 +1,21 @@
+﻿<Properties StartupItem="InClassV2/InClassV2.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="InClassV2/ConcatStream.cs">
+    <Files>
+      <File FileName="InClassV2/FilesWebService.cs" Line="145" Column="26" />
+      <File FileName="InClassV2/WebRequest.cs" Line="64" Column="4" />
+      <File FileName="InClassV2/FileSystemDefs.cs" Line="360" Column="1" />
+      <File FileName="InClassV2/WebServer.cs" Line="71" Column="27" />
+      <File FileName="InClassV2/ValidateRequest.cs" Line="112" Column="1" />
+      <File FileName="InClassV2/ThreadPool.cs" Line="73" Column="14" />
+      <File FileName="InClassV2/WebService.cs" Line="1" Column="1" />
+      <File FileName="InClassV2/ConcatStream.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/InClassV2/InClassV2/WebRequest.cs" line="74" column="49" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

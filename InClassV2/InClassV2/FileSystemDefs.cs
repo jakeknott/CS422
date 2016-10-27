@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace CS422
 {
@@ -86,6 +85,7 @@ namespace CS422
 			m_path = path;
 			m_name = Path.GetFileName (path);
 			_isRoot = isRoot;
+
 		}
 
 		private bool ValidateName(string name)
@@ -605,22 +605,6 @@ namespace CS422
 			{
 				return null;
 			}
-
-			foreach(File422 file in files)
-			{
-				if (file.Name == name)
-				{
-					return null;
-				}
-			}
-
-			foreach(Dir422 dir in dirs)
-			{
-				if (dir.Name == name)
-				{
-					return null;
-				}
-			}
 			
 			File422 newFile = new MemFSFile (this, name);
 			files.Add (newFile);
@@ -702,47 +686,37 @@ namespace CS422
 
 		public override Stream OpenReadOnly()
 		{
-			//When trying to open a stream for reading we need to lock the file from 
-			// Other threads.
-			lock (this)
+			//removing all strems that are not used anymore
+			TrimStreamLists ();
+
+			// If there is a stream open for write, we cannot open one for reading
+			// othewise we can open for reading, even if there is already a stream open for read. 
+			if (openForWrite.Count > 0)
 			{
-				//removing all strems that are not used anymore
-				TrimStreamLists ();
-
-				// If there is a stream open for write, we cannot open one for reading
-				// othewise we can open for reading, even if there is already a stream open for read. 
-				if (openForWrite.Count > 0)
-				{
-					return null;
-				}
-
-				MyMemStream s = new MyMemStream (data, true, false);
-				//data.CopyTo (s);
-				openForRead.Add (s);
-				return s;
+				return null;
 			}
+
+			MyMemStream s = new MyMemStream (data, true, false);
+			//data.CopyTo (s);
+			openForRead.Add (s);
+			return s;
 		}
 
 		public override Stream OpenReadWrite()
 		{
-			//When trying to open a stream for writting we need to lock the file from 
-			// Other threads.
-			lock (this)
+			//removing all strems that are not used anymore
+			TrimStreamLists ();
+
+			// If there are any streams open, wether that is for read or write, return null.
+			if (openForWrite.Count > 0 || openForRead.Count > 0)
 			{
-				//removing all strems that are not used anymore
-				TrimStreamLists ();
-
-				// If there are any streams open, wether that is for read or write, return null.
-				if (openForWrite.Count > 0 || openForRead.Count > 0)
-				{
-					return null;
-				}
-
-				//When opening a file, open it at the beginning.
-				data.Seek (0, SeekOrigin.Begin);
-				openForWrite.Add (data);
-				return data;
+				return null;
 			}
+
+			//When opening a file, open it at the beginning.
+			data.Seek (0, SeekOrigin.Begin);
+			openForWrite.Add (data);
+			return data;
 		}
 	}
 
