@@ -51,7 +51,14 @@ namespace CS422
 
 			byte[] response = Encoding.ASCII.GetBytes(respoString);
 
-			_netStream.Write (response, 0, response.Length);			
+			try
+			{
+				_netStream.Write (response, 0, response.Length);			
+			}
+			catch
+			{
+				return;
+			}
 		}
 
 		public bool WriteHTMLResponse(string htmlString)
@@ -64,7 +71,14 @@ namespace CS422
 
 			byte[] response = Encoding.ASCII.GetBytes(respoString);
 
-			_netStream.Write (response, 0, response.Length);
+			try
+			{
+				_netStream.Write (response, 0, response.Length);
+			}
+			catch
+			{
+				return false;
+			}
 
 			return true;
 		}
@@ -149,7 +163,14 @@ namespace CS422
 			byte[] response = Encoding.ASCII.GetBytes(respoString);
 
 			//Write our partial data header, if we have a valid range. 
-			_netStream.Write (response, 0, response.Length);
+			try
+			{
+				_netStream.Write (response, 0, response.Length);
+			}
+			catch
+			{
+				return false;
+			}
 
 			// Go to the location we want to send
 			fileData.Seek (firstInt, SeekOrigin.Begin);
@@ -193,7 +214,14 @@ namespace CS422
 
 			byte[] response = Encoding.ASCII.GetBytes(respoString);
 
-			_netStream.Write (response, 0, response.Length);
+			try
+			{
+				_netStream.Write (response, 0, response.Length);
+			}
+			catch
+			{
+				return false;
+			}
 
 			byte[] buf = new byte[1024];
 			int readCount = fileData.Read (buf, 0, buf.Length);
@@ -213,6 +241,7 @@ namespace CS422
 
 			return true;
 		}
+			
 	}
 }
 

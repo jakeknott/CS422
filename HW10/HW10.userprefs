@@ -1,0 +1,17 @@
+﻿<Properties StartupItem="HW10/HW10.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="HW10/BigNum.cs">
+    <Files>
+      <File FileName="HW10/BigNum.cs" Line="119" Column="4" />
+      <File FileName="HW10/NUnitTestClass.cs" Line="13" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW10/HW10/NUnitTestClass.cs" line="17" column="25" />
+      <Breakpoint file="/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW10/HW10/NUnitTestClass.cs" line="13" column="39" />
+      <Breakpoint file="/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW10/HW10/BigNum.cs" line="119" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
