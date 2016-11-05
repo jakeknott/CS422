@@ -75,24 +75,26 @@ namespace CS422
 			// Now we need to change the bits into doubles into strings
 			int exponent = Convert.ToInt32 (exponentString, 2) - 1023;
 
-			decimal sigNum = 0;
+			BigNum sigNum = new BigNum("0");
 
 			for(int i = 0; i < sigString.Length; i++)
 			{
 				if (sigString[i] == '1')
 				{
-					sigNum += (decimal)Math.Pow (2, -(i + 1)); 
+					sigNum += Pow (2, -(i + 1)); 
 				}
 			}
 
 
 			// at the 1 in the sig 1.somthing
-			sigNum += 1;
+			sigNum += new BigNum("1");
 
 
-			var number = sigNum * (decimal)Math.Pow (2, exponent);
-			string numString = number.ToString ();
-			MakeBigNumFromString (numString);
+			BigNum myNum = (sigNum * Pow (2, exponent));
+			m_exp = myNum.Exp;
+			m_isNeg = myNum.m_isNeg;
+			m_isUndefinded = myNum.IsUndefined;
+			m_num = myNum.Num;
 		}
 
 		private BigNum (BigInteger exp, BigInteger num, bool negative)
@@ -109,6 +111,28 @@ namespace CS422
 			m_isNeg = toCopy.m_isNeg;
 		}
 
+		private static BigNum Pow(int Base, int pow)
+		{
+			if (pow == 0)
+			{
+				return new BigNum ("1");
+			}
+
+			if (pow < 0)
+			{
+				//This Math.Pow (Base, -pow).ToString () should be a bit intiger since they are both 
+				// positive intigers, so it will be lossless. 
+				BigNum multiplier = new BigNum (BigInteger.Pow (Base, -pow).ToString ());
+				BigNum one = new BigNum("1");
+
+				return one / multiplier;
+			}
+
+
+
+			return new BigNum(BigInteger.Pow (Base, pow).ToString ());
+		}
+
 		private void MakeBigNumFromString (string number)
 		{			
 			if (number == null)
@@ -118,6 +142,34 @@ namespace CS422
 
 			int numOfDecPoints = 0;
 			int? decimalIndtex = null;
+			int extraExponent = 0;
+
+			// take out the E if it exists
+			if (number.Contains ("E"))
+			{
+				//if it has an E it has a +
+				try
+				{
+					extraExponent = Convert.ToInt32 ( number.Substring (number.IndexOf ('+')));
+					extraExponent = -extraExponent;
+				}
+				catch
+				{
+					extraExponent = Convert.ToInt32 ( number.Substring (number.IndexOf ('-')));
+				}
+				number = number.Substring (0, number.IndexOf ('E'));
+
+				int di = number.IndexOf ('.');
+				number = number.Remove (di, 1);
+
+
+				while(0 >= number.Length + extraExponent)
+				{
+					number = number.Insert (number.Length, "0");
+				}
+
+				number = number.Insert (number.Length, ".");
+			}
 
 			// Go through the chars in the string
 			// checking for valid chars
@@ -259,6 +311,7 @@ namespace CS422
 		
 			if(m_exp < 0)
 			{
+
 				sb.Insert (sb.Length + (int)m_exp, ".");
 			}
 			else if (m_exp > 0)
@@ -409,9 +462,10 @@ namespace CS422
 				undefinedNum.m_isUndefinded = true;
 				return undefinedNum;
 			}
-			
-			BigInteger exponent = lhs.m_exp - rhs.m_exp - 20;
-			BigInteger percision = BigInteger.Pow (10, 20);
+
+			int numPerDitigs = 60;
+			BigInteger exponent = lhs.m_exp - rhs.m_exp - numPerDitigs;
+			BigInteger percision = BigInteger.Pow (10, numPerDitigs);
 			BigInteger num = (percision * lhs.m_num) / rhs.m_num;
 
 			bool newNeg = false;

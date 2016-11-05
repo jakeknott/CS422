@@ -12,6 +12,9 @@ namespace CS422
 			BigNum myNum = new BigNum("0000.00000124");
 			string mystring = myNum.ToString ();
 
+			myNum = new BigNum (Math.Pow (2, 52).ToString ());
+			string s =myNum.ToString ();
+
 			Assert.AreEqual (".00000124", mystring);
 
 			myNum = new BigNum (45.3265, true);
@@ -90,6 +93,8 @@ namespace CS422
 
 
 			BigNum fromDouble = new BigNum (45.24587, false);
+			string doubeString = fromDouble.ToString ();
+			Assert.AreEqual (doubeString, "45.245869999999996480255504138767719268798828125");
 
 			bool isSame = BigNum.IsToStringCorrect (45.24587);
 			Assert.IsFalse (isSame);
