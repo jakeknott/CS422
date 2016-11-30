@@ -32,6 +32,8 @@ namespace CS422
 				// should catch the execption
 			}
 
+			//Cannot set position
+			Assert.Throws<NotImplementedException> (delegate {noSeekStream.Position = 10; });
 		}
 	}
 }

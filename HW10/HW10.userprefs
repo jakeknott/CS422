@@ -1,29 +1,13 @@
 ﻿<Properties StartupItem="HW10/HW10.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="HW10/BigNum.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="HW10/NUnitTestClass.cs">
     <Files>
-      <File FileName="HW10/BigNum.cs" Line="324" Column="11" />
-      <File FileName="HW10/NUnitTestClass.cs" Line="100" Column="2" />
+      <File FileName="HW10/BigNum.cs" Line="609" Column="1" />
+      <File FileName="HW10/NUnitTestClass.cs" Line="103" Column="1" />
     </Files>
-    <Pads>
-      <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State name="__root__">
-          <Node name="HW10" expanded="True">
-            <Node name="HW10" expanded="True">
-              <Node name="CS422" expanded="True">
-                <Node name="NUnitTestClass" expanded="True">
-                  <Node name="TestCase" selected="True" />
-                </Node>
-              </Node>
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW10/HW10/NUnitTestClass.cs" line="97" column="51" />
       <Breakpoint file="/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW10/HW10/NUnitTestClass.cs" line="46" column="45" />
       <Breakpoint file="/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW10/HW10/NUnitTestClass.cs" line="50" column="41" />
       <Breakpoint file="/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW10/HW10/NUnitTestClass.cs" line="17" column="39" />

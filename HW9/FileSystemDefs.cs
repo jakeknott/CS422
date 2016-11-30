@@ -69,7 +69,7 @@ namespace CS422
 	{
 		private string m_path;
 		private string m_name;
-		private static bool _isRoot;
+		private bool _isRoot;
 
 		//Defualt is not the root
 		public StdFSDir (string path)
@@ -295,13 +295,10 @@ namespace CS422
 			// file open there is no problems.
 			if (File.Exists (newFilePath))
 			{
-				// If the file exists then we dont want to upload it again.
-				return null;
+				File.Delete (newFilePath);
 			}
 
-			//Since create returns a stream, we need to capture it and close it.
-			Stream s = File.Create (newFilePath);
-			s.Close ();
+			File.Create (newFilePath);
 
 			return new StdFSFile(newFilePath);
 		}

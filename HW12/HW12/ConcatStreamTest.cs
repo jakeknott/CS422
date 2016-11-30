@@ -121,11 +121,51 @@ namespace CS422
 				i += randomRead;
 			}
 
-			conStream.Position = conStream.Length + 5;
+			Assert.Throws<NotImplementedException> (delegate {conStream.Position = conStream.Length + 5;});
 			Assert.AreEqual (0, conStream.Read (new byte[10], 0, 5));
 
 			Assert.Throws<ArgumentException> (delegate {
 				conStream.Write (b2, 0, 300);
+			});
+		}
+
+		[Test ()]
+		public void TestLength()
+		{
+			Random rnd = new Random();
+			Stream one = new MemoryStream ();
+			Stream two = new MemoryStream ();
+
+			int randomNum = rnd.Next (100000);
+
+			for (int i = 0; i < randomNum; i++)
+			{
+				int number = rnd.Next (1000);
+				one.Write (new byte[]{ (byte)number }, 0, 1);
+				two.Write(new byte[]{ (byte)number }, 0, 1);
+			}
+
+			ConcatStream conStream = new ConcatStream (one, two);
+
+			Assert.DoesNotThrow (delegate {
+				conStream.SetLength (10);
+			});
+
+			one = new MemoryStream ();
+			NoSeekMemoryStream second = new NoSeekMemoryStream (new byte[1]{(byte)4});
+
+			randomNum = rnd.Next (100000);
+
+			for (int i = 0; i < randomNum; i++)
+			{
+				int number = rnd.Next (1000);
+				one.Write (new byte[]{ (byte)number }, 0, 1);
+			}
+
+			conStream = new ConcatStream (one, second);
+
+			Assert.Throws<NotImplementedException> (delegate {
+				conStream.SetLength (10);
 			});
 		}
 

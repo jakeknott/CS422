@@ -32,10 +32,6 @@ namespace CS422
 			get {return _catStream.Length; }
 		}
 
-		public Stream Body {
-			get { return _catStream;}
-		}
-
 		public WebRequest (
 			NetworkStream netStream, Stream catStream, ValidateRequest validRequest)
 		{			

@@ -8,12 +8,11 @@ namespace CS422
 		private Stream s1;
 		private Stream s2;
 		private long _length;
-		private bool _usedSecConstruct;
-		private long _position;
+		private long _posistion;
+
 
 		public ConcatStream(Stream first, Stream second)
 		{
-			_usedSecConstruct = false;
 			s1 = first;
 
 			// Start the concat stream at position 0.
@@ -37,24 +36,18 @@ namespace CS422
 				_length = -1;
 			}
 
-			//TODO: Check this is correct logic
-			_position = 0;
+			_posistion = 0;
 		}
 
 		public ConcatStream(Stream first, Stream second, long fixedLength)
 		{
-			_usedSecConstruct = true;
 			s1 = first;
-
-			// Start the concat stream at position 0.
-			s1.Seek (0, SeekOrigin.Begin);
 
 			// This will throw an exception if s1 does not support length, and it must support it. 
 			long temp = s1.Length;
 
 			s2 = second;
 			_length = fixedLength;
-			_position = 0;
 		}
 
 		public override bool CanRead {
@@ -104,75 +97,17 @@ namespace CS422
 				}
 				else
 				{
-					if (_usedSecConstruct)
-					{
-						//If we used the second constructor we just return what they told us 
-						// was the length
-						return _length;
-					}
-
-					//If we are here, then we used the first constructor and we know that the 
-					// streams both support the length property
-
-					long l1 = s1.Length;
-					long l2 = s2.Length;
-
-					// If we are here then we can dynamically get the length
-					return l1 + l2;
+					return _length;
 				}
 			}
 		}
 
 		public override long Position {
 			get {
-				return _position;
+				return _posistion;
 			}
 			set {
-				if (value < 0)
-				{
-					throw new ArgumentException ("Cannot set position to negative value");
-				}
-
-				if (!CanSeek)
-				{
-					throw new NotImplementedException ("Stream cannot seek");
-				}
-
-				setPositionHelper (value);
-
-			}
-		}
-
-		private void setPositionHelper(long value)
-		{
-			_position = value;
-
-			// After position is set, we need to adjust our streams to be in the right section.
-			if (_position < s1.Length)
-			{
-				// we are in our first stream
-				s1.Seek (_position, SeekOrigin.Begin);
-
-				// If we move into stream one, then make sure to set the stream two to start reading from the beging.
-				//s2.Seek (0, SeekOrigin.Begin);
-				if (s2.Position != 0)
-				{
-					// If it is not already 0 try to set it.
-					// if we cannot set position then this will throw an exception. (expected)
-					s2.Position = 0;
-				}
-			}
-			else
-			{
-				// We are in the second stream.
-				// Posistion - s1.length is the relative position into stream 2. 
-				if (s2.Position != _position - s1.Length)
-				{
-					s2.Position = _position - s1.Length;
-				}
-
-				// If we are in s2, then move s1 to the end of itself.
-				s1.Seek (0, SeekOrigin.End);
+				_posistion = value;
 			}
 		}
 
@@ -184,26 +119,6 @@ namespace CS422
 
 		public override void SetLength (long value)
 		{
-			if (!CanSeek || !CanWrite)
-			{
-				throw new NotImplementedException ();
-			}
-
-			if (value < 0)
-			{
-				throw new ArgumentException ();
-			}
-
-			if (value < s1.Length)
-			{
-				s1.SetLength (value);
-				s2.SetLength (0);
-			}
-			else
-			{
-				s2.SetLength (value - s1.Length);
-			}
-
 			_length = value;
 		}
 
@@ -224,6 +139,25 @@ namespace CS422
 					Position = Length - offset;
 				}
 
+				// No positin is set, we need to adjust our streams to be in the righ section.
+				if (Position < s1.Length)
+				{
+					// we are in our first stream
+					s1.Seek (Position, SeekOrigin.Begin);
+
+					// If we move into stream one, then make sure to set the stream two to start reading from the beging.
+					s2.Seek (0, SeekOrigin.Begin);
+				}
+				else
+				{
+					// We are in the second stream.
+					// Posistion - s1.length is the relative position into stream 2. 
+					s2.Seek (Position - s1.Length, SeekOrigin.Begin);
+
+					// If we are in s2, then move s1 to the end of itself.
+					s1.Seek (0, SeekOrigin.End);
+				}
+
 				return Position;
 			}
 			else
@@ -238,17 +172,14 @@ namespace CS422
 
 			// read from the first stream as many as we can.
 			bytesRead = s1.Read (buffer, offset, count);
-			setPositionHelper (Position + bytesRead);
-			//Position += bytesRead;
+			Position += bytesRead;
 
 			// Read from the second stream
 			// This will potentally not read, if the first read got everything.
 			// Offset + bytesRead is were in the buf we left off
 			// count - bytesRead is the amount of bytes left to read. 
 			int bytes = s2.Read (buffer, offset + bytesRead, count - bytesRead);
-			//Position += bytes;
-			setPositionHelper (Position + bytes);
-
+			Position += bytes;
 			bytesRead += bytes;
 
 			return bytesRead;
@@ -258,6 +189,8 @@ namespace CS422
 		{
 			if (CanWrite)
 			{
+				// we need to write 
+
 				if (Position < s1.Length)
 				{
 					//we are in stream one, then write all we can to stream one
@@ -273,7 +206,7 @@ namespace CS422
 						s1.Write (buffer, offset, (int)spaceLeft);
 
 						// update the count we need to write.
-						int amountLeft = count - (int)spaceLeft;
+						count -= (int)spaceLeft;
 				
 						// Wrtite the rest to stream 2. 
 						// We should be at the begining of stream2, if we are not then we cannot write correctly.
@@ -283,19 +216,7 @@ namespace CS422
 							s2.Seek (0, SeekOrigin.Begin);
 						}
 
-						//No we are at the current position in s2
-						if (!_usedSecConstruct || amountLeft < Length - spaceLeft)
-						{
-							//only write if we used the first constructor, or there is enough space to write to 
-							// second stream without going over the size limit
-							s2.Write (buffer, offset + (int)spaceLeft, amountLeft);
-						}
-						else
-						{
-							// here, we had things to write, but were unable to finish the write to 
-							// s2 since we would have to resize the second stream and we were given a fixed length
-							throw new ArgumentException ();
-						}
+						s2.Write (buffer, offset + (int)spaceLeft, count);
 					}
 				} 
 				else
@@ -308,26 +229,13 @@ namespace CS422
 						s2.Seek (expectedS2Position, SeekOrigin.Begin);	
 					}
 
-					//No we are at the current position in s2
-					if (!_usedSecConstruct || count < Length - Position)
-					{
-						//only write if we used the first constructor, or there is enough space to write to 
-						// second stream without going over the size limit
-						s2.Write (buffer, offset + offset, count);
-					}
-					else
-					{
-						// here, we had things to write, but were unable to finish the write to 
-						// s2 since we would have to resize the second stream and we were given a fixed length
-						throw new ArgumentException ();
-					}
-
+					s2.Write (buffer, offset, count);
 				}
 
 				// Increment our position to the aomount we wrote,
 				// we will only be here if we suceffuly wrote the bytes to the correct stream.
-				//Position += count;
-				setPositionHelper (Position + count);
+				Position += count;
+
 			}
 			else
 			{

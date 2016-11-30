@@ -26,6 +26,15 @@ namespace CS422
 			throw new NotSupportedException ("Seeking is not supported in the NoSeekMemoryStream class");
 		}
 
+		public override long Position {
+			get {
+				return _memStream.Position;
+			}
+			set {
+				throw new NotImplementedException ();
+			}
+		}
+
 		public override bool CanSeek {
 			get {
 				return false;
@@ -53,11 +62,13 @@ namespace CS422
 		public override int Read (byte[] buffer, int offset, int count)
 		{
 			return _memStream.Read (buffer, offset, count);
+			//Position = _memStream.Position;
 		}
 
 		public override void Write (byte[] buffer, int offset, int count)
 		{
 			_memStream.Write (buffer, offset, count);
+			//Position = _memStream.Position;
 		}
 	}
 }

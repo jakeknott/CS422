@@ -294,8 +294,7 @@ namespace CS422
 
 		private bool IsValidMethod(Stream stream)
 		{
-			string getStart = "GET ";
-			string putStart = "PUT ";
+			string expectedStart = "GET ";
 			string readSoFar = string.Empty;
 
 			// Read the set of the request.
@@ -333,25 +332,17 @@ namespace CS422
 
 				// If our read so far is NOT at the begining of our expected 
 				// Return false.
-				if (!getStart.StartsWith (readSoFar) && !putStart.StartsWith (readSoFar))
+				if (!expectedStart.StartsWith (readSoFar))
 				{
 					return false;
 				}
 
 				// If we have read our expeted string (including the space)
 				// Return true.
-				if (getStart.Equals (readSoFar) || putStart.Equals (readSoFar))
+				if (expectedStart.Equals (readSoFar))
 				{
-					// We have read "GET " or "PUT "
-					if (readSoFar.Equals (getStart))
-					{
-						_method = "GET";
-					}
-					else
-					{
-						_method = "PUT";
-					}
-
+					// We have read "GET "
+					_method = "GET";
 					return true;
 				}
 			}

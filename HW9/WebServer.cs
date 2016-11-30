@@ -63,7 +63,7 @@ namespace CS422
 			}
 		}
 
-		internal static void AddService(WebService service)
+		internal void AddService(WebService service)
 		{
 			services.Add (service);
 		}
@@ -114,9 +114,9 @@ namespace CS422
 				string value;
 				if (validate.Headers.TryGetValue ("content-length", out value))
 				{
-					long contentLength;
+					int contentLength;
 
-					if (!long.TryParse (value, out contentLength))
+					if (!int.TryParse (value, out contentLength))
 					{
 						// we have the header, but it is not a valid int
 						throw new ArgumentOutOfRangeException ("Invalid Content-Length header value");
