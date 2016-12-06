@@ -7,7 +7,7 @@ namespace CS422
 		public static void Main (string[] args)
 		{
 			WebServer.Start (4220, 1);
-			FilesWebService fileService = new FilesWebService(StandardFileSystem.Create ("/home/jakeknott/Downloads"));
+			FilesWebService fileService = new FilesWebService(StandardFileSystem.Create ("/home/jakeknott/Desktop"));
 			WebServer.AddService (fileService);
 
 			while(true)

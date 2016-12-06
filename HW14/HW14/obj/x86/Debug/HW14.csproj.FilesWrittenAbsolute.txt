@@ -1,0 +1,5 @@
+/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW14/HW14/obj/x86/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW14/HW14/bin/Debug/HW14.exe.mdb
+/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW14/HW14/bin/Debug/HW14.exe
+/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW14/HW14/obj/x86/Debug/HW14.exe
+/media/jakeknott/99871139-c27c-483d-8216-4854d5e16cad/School/Fall 2016/TestingCS422/CS422/HW14/HW14/obj/x86/Debug/HW14.exe.mdb
